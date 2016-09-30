@@ -44,6 +44,7 @@ else
 fi
 
 # Generate olog json file
+mkdir -p /usr/local/share/fwts/
 $WORKDIR/skiboot/external/fwts/generate-fwts-olog $WORKDIR/skiboot/ -o /usr/local/share/fwts/olog.json 
 if [ $? == 0 ]; then
         echo "Generated the olog.json file for OLOG test";
@@ -71,4 +72,11 @@ else
 fi
 cd $WORKDIR/fwts/src
 ./fwts
-cat results.log
+if [ $? == 0 ]; then
+	cat results.log
+	echo "All the FWTS tests are passed";
+else
+	echo "one or more FWTS tests are failed"
+	cat results.log
+	exit $?;
+fi
